@@ -55,6 +55,18 @@ header() {
     echo ""
 }
 
+# Check if we're in Cloud Shell
+detect_cloud_shell() {
+    if [ -n "$CLOUD_SHELL" ]; then
+        info "Running in Google Cloud Shell ☁️"
+        info "You're already authenticated and ready to go!"
+        return 0
+    else
+        info "Running on local machine"
+        return 1
+    fi
+}
+
 # Check if gcloud is installed
 check_gcloud() {
     if ! command -v gcloud &> /dev/null; then
@@ -414,6 +426,7 @@ EOF
     echo -e "${NC}"
     echo ""
 
+    detect_cloud_shell
     check_gcloud
     get_user_ip
     show_config
